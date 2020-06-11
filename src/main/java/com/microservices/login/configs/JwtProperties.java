@@ -11,4 +11,6 @@ public class JwtProperties {
     private String secretKey;
     private String issuer;
     private long validityInMilliseconds;
+    private String authorization;
+    private String bearer;
 }

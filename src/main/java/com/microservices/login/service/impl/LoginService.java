@@ -9,6 +9,7 @@ import com.microservices.login.exceptions.UnauthorisedException;
 import com.microservices.login.feignInterface.UserInterface;
 import com.microservices.login.security.JwtTokenProvider;
 import com.microservices.login.service.interfaces.ILoginService;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -110,7 +111,13 @@ public class LoginService implements ILoginService {
     }
 
     @Override
-    public Boolean isValidToken(String token) {
+    public User getUserByToken(String token) {
+        if((null != token) && jwtTokenProvider.validateToken(token)){
+            User request = new User();
+            request.setLogin(jwtTokenProvider.getUsername(token));
+            User response = userInterface.searchUser(request);
+            return response;
+        }
         return null;
     }
 

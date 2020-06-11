@@ -1,5 +1,6 @@
 package com.microservices.login.service.interfaces;
 
+import com.microservices.login.data.User;
 import com.microservices.login.data.requestDTO.LoginRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +10,7 @@ public interface ILoginService {
 
     boolean logout(String token);
 
-    Boolean isValidToken(String token);
+    User getUserByToken(String token);
 
     String createNewToken(String token);
 }

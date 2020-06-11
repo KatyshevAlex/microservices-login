@@ -1,6 +1,7 @@
 package com.microservices.login.controller;
 
 import com.microservices.login.data.AuthResponse;
+import com.microservices.login.data.User;
 import com.microservices.login.data.requestDTO.LoginRequest;
 import com.microservices.login.service.interfaces.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/login")
+@CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
     @Autowired
     private ILoginService loginService;
-
-    @GetMapping("/test")
-    public String test(){
-        return "login-service works";
-    }
 
     @CrossOrigin("*")
     @PostMapping("/signin")
@@ -48,15 +45,9 @@ public class LoginController {
     }
 
 
-    /**
-     * @param token
-     * @return boolean.
-     * if request reach here it means it is a valid token.
-     */
-    @PostMapping("/valid/token")
-    @ResponseBody
-    public Boolean isValidToken (@RequestHeader(value="Authorization") String token) {
-        return true;
+    @PostMapping("/get-user-by-token")
+    public User isValidToken (@RequestBody AuthResponse auth) {
+        return loginService.getUserByToken(auth.getAccessToken());
     }
 
     @PostMapping("/signin/token")
@@ -67,8 +58,6 @@ public class LoginController {
         HttpHeaders headers = makeHeaders(newToken);
         return new ResponseEntity<>(new AuthResponse(newToken), headers, HttpStatus.CREATED);
     }
-
-
 
 
     private HttpHeaders makeHeaders(String token){

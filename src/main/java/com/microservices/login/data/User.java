@@ -1,5 +1,6 @@
 package com.microservices.login.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +22,6 @@ public class User {
     private boolean tokenExpired;
     private LocalDateTime lastSeen;
 
+    @JsonIgnoreProperties("users")
     private Collection<Role> roles;
 }
