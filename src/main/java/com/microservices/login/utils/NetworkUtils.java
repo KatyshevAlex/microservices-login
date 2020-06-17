@@ -17,7 +17,7 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*THIS CLASS GIVES NETWORK INFORMATION(IP ADDRESSS AND MAC ADDRESS) OF CLIENT AND SERVER*/
+/*THIS CLASS GIVES NETWORK INFORMATION(IP ADDRESS AND MAC ADDRESS) OF CLIENT AND SERVER*/
 public class NetworkUtils {
 
     public static Function<String, String> getClientMACAddress = (ip) -> {

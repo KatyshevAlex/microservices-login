@@ -20,6 +20,7 @@ import java.util.List;
 public class LoginController {
     @Autowired
     private ILoginService loginService;
+    private final String authHeader = "Authorization-jwt";
 
     @CrossOrigin("*")
     @PostMapping("/signin")
@@ -35,10 +36,10 @@ public class LoginController {
     @CrossOrigin("*")
     @PostMapping("/signout")
     @ResponseBody
-    public ResponseEntity<AuthResponse> logout (@RequestHeader(value="Authorization") String token) {
+    public ResponseEntity<AuthResponse> logout (@RequestHeader(value=authHeader) String token) {
         HttpHeaders headers = new HttpHeaders();
         if (loginService.logout(token)) {
-            headers.remove("Authorization");
+            headers.remove(authHeader);
             return new ResponseEntity<>(new AuthResponse("logged out"), headers, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(new AuthResponse("Logout Failed"), headers, HttpStatus.NOT_MODIFIED);
@@ -53,7 +54,7 @@ public class LoginController {
     @PostMapping("/signin/token")
     @CrossOrigin("*")
     @ResponseBody
-    public ResponseEntity<AuthResponse> createNewToken (@RequestHeader(value="Authorization") String token) {
+    public ResponseEntity<AuthResponse> createNewToken (@RequestHeader(value=authHeader) String token) {
         String newToken = loginService.createNewToken(token);
         HttpHeaders headers = makeHeaders(newToken);
         return new ResponseEntity<>(new AuthResponse(newToken), headers, HttpStatus.CREATED);
@@ -68,16 +69,16 @@ public class LoginController {
                 " Accept",
                 "X-Requested-With",
                 "X-Requested-With",
-                "Authorization");
+                authHeader);
 
         List<String> exposeList = Arrays.asList(
-                "Authorization"
+                authHeader
         );
 
         headers.setAccessControlAllowHeaders(headerList);
         headers.setAccessControlExposeHeaders(exposeList);
 
-        headers.set("Authorization", token);
+        headers.set(authHeader, token);
         return headers;
     }
 }

@@ -2,7 +2,6 @@ package com.microservices.login.security;
 
 import com.microservices.login.configs.JwtProperties;
 import com.microservices.login.data.responseDTO.NetworkResponse;
-import com.microservices.login.exceptions.UnauthorisedException;
 import com.microservices.login.utils.NetworkUtils;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
